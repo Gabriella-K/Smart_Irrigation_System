@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; background: #f5ead8; }
+input, select, button, textarea { font-family: inherit; }
+a { text-decoration: none; }
+section { scroll-margin-top: 56px; }
+
+input[type="range"] { -webkit-appearance: none; appearance: none; height: 4px; border-radius: 2px; outline: none; border: none; background: rgba(48,34,21,0.12); cursor: pointer; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #75853e; cursor: pointer; border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: transform 0.15s ease; }
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+select option { background: #302215; color: #f5ead8; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(117,133,62,0.4); border-radius: 3px; }
+
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 6px #75853e; } 50% { box-shadow: 0 0 14px #75853e; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+video::-webkit-media-controls { display: none !important; }
+video::-webkit-media-controls-enclosure { display: none !important; }
+video::-webkit-media-controls-panel { display: none !important; }
+video::-webkit-media-controls-start-playback-button { display: none !important; }
+
+/* Hide left panel on very small screens */
+@media (max-width: 700px) {
+  .auth-left { display: none !important; }
+  .auth-right { flex: 1 !important; }
+}
+
+@media (min-width: 901px) {
+  nav > button[aria-label="menu"] { display: none !important; }
+}
+@media (max-width: 900px) {
+  nav > div:nth-child(2) { display: none !important; }
+  nav > div:nth-child(3) { display: none !important; }
+  nav > button[aria-label="menu"] { display: flex !important; }
+}

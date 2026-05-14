@@ -1,0 +1,45 @@
+# Virtual Environment
+venv/
+env/
+ENV/
+myenv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environment variables
+.env
+*.env
+
+# Model artifacts (but we'll track these - adjust later)
+# model_artifacts/
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Database (if we add one later)
+*.db
+*.sqlite3
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/

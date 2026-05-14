@@ -1,0 +1,14 @@
+SCALER EXPECTS 12 FEATURES:
+==================================================
+  1: Soil_Moisture
+  2: Temperature_C
+  3: Humidity
+  4: Rainfall_mm
+  5: Sunlight_Hours
+  6: Previous_Irrigation_mm
+  7: Temp_Humidity_Interaction
+  8: Moisture_Deficit
+  9: Rain_Sun_Product
+ 10: Irrigation_to_Rainfall
+ 11: Moisture_per_Temp
+ 12: Water_Stress_Index
