@@ -1,0 +1,73 @@
+# docker-compose.yml — Smart Irrigation System Full-Stack Orchestration
+# Starts the Flask backend and the React/Nginx frontend as linked containers.
+# Run with:  docker compose up --build
+# Stop with: docker compose down
+
+version: '3.9'
+
+services:
+
+  # ── Backend: Flask API ─────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./smart-irrigation-backend    # Dockerfile is in the backend/ folder
+      dockerfile: Dockerfile
+    container_name: smart-irrigation-api
+    restart: unless-stopped   # auto-restart on crash
+
+    ports:
+      - '5000:5000'           # expose API to the host (useful for direct testing)
+
+    environment:
+      - FLASK_ENV=production
+      - PORT=5000
+      - JWT_SECRET=${JWT_SECRET:-smart-irrigation-secret-change-in-prod}
+      - JWT_EXPIRY_HOURS=24
+      - LOG_LEVEL=INFO
+      - MODEL_DIR=model_artifacts
+      - CONFIDENCE_THRESHOLD=0.70
+
+    volumes:
+      # Mount ML model files from the host so they don't need to be baked into
+      # the image (useful for updating the model without rebuilding)
+      - ./backend/model_artifacts:/app/model_artifacts
+
+    networks:
+      - irrigation-net
+
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:5000/api/health']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # ── Frontend: React + Nginx ────────────────────────────────────────────────
+  frontend:
+    build:
+      context:  ./Smart-irrigation-frontend
+      dockerfile: Dockerfile
+    container_name: smart-irrigation-ui
+    restart: unless-stopped
+
+    ports:
+      - '3000:80'             # app accessible at http://localhost:3000
+
+    environment:
+      # Vite bakes this URL into the JS bundle at build time.
+      # Inside Docker, /api/* is proxied by Nginx to the backend container.
+      - VITE_API_URL=''       # empty = requests go to the same origin, proxied by Nginx
+
+    depends_on:
+      backend:
+        condition: service_healthy   # wait for the backend health check to pass
+
+    networks:
+      - irrigation-net
+
+# ── Shared network ─────────────────────────────────────────────────────────────
+networks:
+  irrigation-net:
+    driver: bridge
+    # Both containers join this network so 'backend' hostname resolves inside
+    # the frontend Nginx proxy_pass directive.
